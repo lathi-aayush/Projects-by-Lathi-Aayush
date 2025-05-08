@@ -1,0 +1,11 @@
+DHT11 Temperature & Humidity Sensor
+Purpose: To read and display temperature and humidity values.
+
+Connections:
+
+DHT11 Pin	Arduino Pin
+VCC	5V
+GND	GND
+DATA	D2 (Digital Pin 2)
+
+📌 Uses the DHT library to read values from the sensor.
