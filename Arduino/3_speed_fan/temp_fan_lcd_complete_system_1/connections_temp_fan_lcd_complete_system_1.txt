@@ -1,0 +1,35 @@
+✅ DHT22 Sensor Connections
+DHT22 Pin	Arduino Pin	Notes
+VCC	5V	Power supply
+DATA	D2	Connected to digital pin 2
+GND	GND	Ground
+
+⚠️ Add a 10kΩ pull-up resistor between VCC and DATA (optional but recommended)
+
+✅ LCD I2C (20x4) Connections
+LCD Pin	Arduino Pin	Notes
+VCC	5V	Power supply
+GND	GND	Ground
+SDA	A4	I2C Data
+SCL	A5	I2C Clock
+
+✅ L293 Motor Driver Connections (for one DC fan)
+🔌 Input Pins
+L293 Pin	Arduino Pin	Purpose
+A1 (IN1)	D8	Fan direction control
+A2 (IN2)	D9	Fan direction control
+ENA	D10	PWM speed control
+VCC	5V	Logic voltage (from Arduino)
+GND	GND	Common ground
+
+🔌 Output Pins to DC Fan
+L293 Output	Connect To
+1 (Out1)	Fan + (positive)
+2 (Out2)	Fan – (negative)
+
+🔋 Motor Power Supply
+L293 Pin	Connect To
+12V (motor VCC)**	External 9–12V power
+GND	Common with Arduino
+
+⚠️ If your fan needs more than 5V, use external power for motor supply (separate from Arduino's 5V).
