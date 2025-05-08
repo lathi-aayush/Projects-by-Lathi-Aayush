@@ -1,0 +1,12 @@
+I2C LCD Display (20x4 or 16x2)
+Purpose: To display custom messages like "Hello World", temperature, humidity, etc.
+
+Connections:
+
+LCD Pin	Arduino Pin
+VCC	5V
+GND	GND
+SDA	A4 (on Uno)
+SCL	A5 (on Uno)
+
+📌 Uses the I2C protocol with LiquidCrystal_I2C library.
