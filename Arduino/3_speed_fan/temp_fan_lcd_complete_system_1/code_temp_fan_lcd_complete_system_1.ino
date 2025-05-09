@@ -15,6 +15,8 @@ const int in1 = 8;
 const int in2 = 9;
 const int enA = 10;
 
+bool fanEnabled = true;  // Control switch from Serial Monitor
+
 void setup() {
   Serial.begin(9600);
 
@@ -38,11 +40,25 @@ void setup() {
 
   delay(2000);
   lcd.clear();
+  Serial.println("Type 'on' or 'off' to control the fan.");
 }
 
 void loop() {
+  // Read Serial commands
+  if (Serial.available()) {
+    String command = Serial.readStringUntil('\n');
+    command.trim();
+    if (command.equalsIgnoreCase("on")) {
+      fanEnabled = true;
+      Serial.println("Fan control: ON");
+    } else if (command.equalsIgnoreCase("off")) {
+      fanEnabled = false;
+      Serial.println("Fan control: OFF");
+    }
+  }
+
   float temp = dht.readTemperature();
-  String fanSpeed;
+  String fanSpeed = "OFF";
 
   if (isnan(temp)) {
     Serial.println("I need some FIX Bro!");
@@ -52,19 +68,24 @@ void loop() {
     return;
   }
 
-  // Determine fan speed
-  if (temp < 29) {
-    analogWrite(enA, 0);
-    fanSpeed = "OFF";
-  } else if (temp < 30) {
-    analogWrite(enA, 85);
-    fanSpeed = "LOW";
-  } else if (temp < 31) {
-    analogWrite(enA, 115);
-    fanSpeed = "MEDIUM";
+  if (fanEnabled) {
+    // Determine fan speed based on temperature
+    if (temp < 30.7) {
+      analogWrite(enA, 0);
+      fanSpeed = "OFF";
+    } else if (temp < 31) {
+      analogWrite(enA, 85);
+      fanSpeed = "LOW";
+    } else if (temp < 31.5) {
+      analogWrite(enA, 115);
+      fanSpeed = "MEDIUM";
+    } else {
+      analogWrite(enA, 255);
+      fanSpeed = "HIGH";
+    }
   } else {
-    analogWrite(enA, 255);
-    fanSpeed = "HIGH";
+    analogWrite(enA, 0);  // Force fan off
+    fanSpeed = "MANUAL OFF";
   }
 
   // Print to Serial
@@ -77,12 +98,12 @@ void loop() {
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("Temp: ");
-  lcd.print(temp, 1);  // 1 decimal place
+  lcd.print(temp, 1);
   lcd.print(" C");
 
   lcd.setCursor(0, 1);
   lcd.print("Fan: ");
   lcd.print(fanSpeed);
 
-  delay(1000);  // Update every 2 seconds
+  delay(1000);
 }
