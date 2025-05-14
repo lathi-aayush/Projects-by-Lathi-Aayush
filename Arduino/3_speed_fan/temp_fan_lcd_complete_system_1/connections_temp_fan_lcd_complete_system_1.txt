@@ -13,6 +13,13 @@ GND	                GND	Ground
 SDA	                A4	I2C Data
 SCL	                A5	I2C Clock
 
+🔌 Ultrasonic Sensor (HC-SR04) Connections
+HC-SR04 Pin			Arduino Pin	Description
+VCC				5V Power supply
+GND				GND Ground
+TRIG				D3 Trigger pin (defined in code)
+ECHO				D4 Echo pin (defined in code)
+
 
 ✅ L293 Motor Driver Connections (for one DC fan)
 🔌 Input Pins
