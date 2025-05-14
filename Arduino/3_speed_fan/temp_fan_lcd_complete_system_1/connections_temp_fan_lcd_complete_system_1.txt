@@ -20,6 +20,11 @@ GND				GND Ground
 TRIG				D3 Trigger pin (defined in code)
 ECHO				D4 Echo pin (defined in code)
 
+🔧 Servo Motor Connections
+Servo Wire Color		Connect To Description
+Red				5V Power supply
+Brown/Black			GND Ground
+Yellow/White			D5 PWM Signal (defined in code)
 
 ✅ L293 Motor Driver Connections (for one DC fan)
 🔌 Input Pins
