@@ -23,7 +23,7 @@ LiquidCrystal_I2C lcd(0x27, 20, 4);
 int currentAngle = 90;
 bool servoActive = true;
 bool fanAuto = true;
-float triggerTemp = 31.4;
+float triggerTemp = 30.7;
 
 void setup() {
   Serial.begin(9600);
@@ -82,8 +82,8 @@ void loop() {
   float distance = readDistance();
   if (servoActive) {
     int targetAngle = 90;
-    if (distance < 60) targetAngle = 30;
-    else if (distance > 60) targetAngle = 150;
+    if (distance < 60) targetAngle = 75;
+    else if (distance > 60) targetAngle = 180;
 
     slowServoMove(currentAngle, targetAngle);
     currentAngle = targetAngle;
