@@ -1,98 +1,99 @@
+#include <DHT.h>
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
-#include <DHT.h>
 
-// DHT22 settings
 #define DHTPIN 2
 #define DHTTYPE DHT22
 DHT dht(DHTPIN, DHTTYPE);
 
-// LCD settings: 20x4 display at address 0x27
+// LCD: 20x4 display at I2C address 0x27
 LiquidCrystal_I2C lcd(0x27, 20, 4);
 
-// Motor control pins
+// Fan control pins
 const int in1 = 8;
 const int in2 = 9;
 const int enA = 10;
 
-bool fanEnabled = true;  // Control switch from Serial Monitor
+bool fanEnabled = true;  // Manual switch via Serial
 
 void setup() {
   Serial.begin(9600);
-
-  // Initialize DHT
   dht.begin();
 
-  // Initialize LCD
-  lcd.init();
-  lcd.backlight();
-  lcd.setCursor(0, 0);
-  lcd.print("Starting system...");
-
-  // Initialize motor pins
+  // Motor pin setup
   pinMode(in1, OUTPUT);
   pinMode(in2, OUTPUT);
   pinMode(enA, OUTPUT);
 
-  // Set motor direction
+  // Set fan direction
   digitalWrite(in1, HIGH);
   digitalWrite(in2, LOW);
 
-  delay(2000);
-  lcd.clear();
-  Serial.println("Type 'on' or 'off' to control the fan.");
+  // LCD init
+  lcd.init();
+  lcd.backlight();
+  lcd.setCursor(0, 0);
+  lcd.print("Fan System Ready");
+
+  Serial.println("Type 'fanon' or 'fanoff' to control the fan manually.");
 }
 
 void loop() {
-  // Read Serial commands
+  // Check Serial for manual ON/OFF
   if (Serial.available()) {
     String command = Serial.readStringUntil('\n');
     command.trim();
-    if (command.equalsIgnoreCase("on")) {
+
+    if (command.equalsIgnoreCase("fanon")) {
       fanEnabled = true;
       Serial.println("Fan control: ON");
-    } else if (command.equalsIgnoreCase("off")) {
+    } else if (command.equalsIgnoreCase("fanoff")) {
       fanEnabled = false;
       Serial.println("Fan control: OFF");
     }
   }
 
   float temp = dht.readTemperature();
-  String fanSpeed = "OFF";
+  String fanStatus = "OFF";
 
   if (isnan(temp)) {
-    Serial.println("I need some FIX Bro!");
+    Serial.println("Failed to read from DHT sensor!");
+    lcd.clear();
     lcd.setCursor(0, 0);
-    lcd.print("Read Serial Monitor");
+    lcd.print("Sensor Error");
     delay(1000);
     return;
   }
 
   if (fanEnabled) {
-    // Determine fan speed based on temperature
     if (temp < 30.7) {
       analogWrite(enA, 0);
-      fanSpeed = "OFF";
+      fanStatus = "OFF";
     } else if (temp < 31) {
-      analogWrite(enA, 85);
-      fanSpeed = "LOW";
+      analogWrite(enA, 255);  // Start with full power
+      delay(200);             // Run for 200ms
+      analogWrite(enA, 85);   // Then reduce to low speed
+      fanStatus = "LOW";
     } else if (temp < 31.5) {
-      analogWrite(enA, 115);
-      fanSpeed = "MEDIUM";
-    } else {
       analogWrite(enA, 255);
-      fanSpeed = "HIGH";
+      delay(200);
+      analogWrite(enA, 115);
+      fanStatus = "MEDIUM";
+    } else {
+      analogWrite(enA, 255);  // Already full speed
+      fanStatus = "HIGH";
     }
+
   } else {
-    analogWrite(enA, 0);  // Force fan off
-    fanSpeed = "MANUAL OFF";
+    analogWrite(enA, 0);  // Force off
+    fanStatus = "MANUAL OFF";
   }
 
   // Print to Serial
   Serial.print("Temperature: ");
   Serial.print(temp);
-  Serial.print(" C | Fan: ");
-  Serial.println(fanSpeed);
+  Serial.print(" °C | Fan: ");
+  Serial.println(fanStatus);
 
   // Print to LCD
   lcd.clear();
@@ -103,7 +104,7 @@ void loop() {
 
   lcd.setCursor(0, 1);
   lcd.print("Fan: ");
-  lcd.print(fanSpeed);
+  lcd.print(fanStatus);
 
   delay(1000);
 }
