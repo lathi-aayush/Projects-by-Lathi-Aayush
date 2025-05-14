@@ -36,15 +36,15 @@ void loop() {
   Serial.print(temp);
   Serial.println(" °C");
 
-  if (temp < 29) {
+  if (temp < 30.7) {
     analogWrite(enA, 0);
     Serial.println("Fan OFF");
   }
-  else if (temp < 30) {
+  else if (temp < 31) {
     analogWrite(enA, 85);  // LOW
     Serial.println("Fan LOW");
   }
-  else if (temp < 31) {
+  else if (temp < 31.5) {
     analogWrite(enA, 115); // MEDIUM
     Serial.println("Fan MEDIUM");
   }
