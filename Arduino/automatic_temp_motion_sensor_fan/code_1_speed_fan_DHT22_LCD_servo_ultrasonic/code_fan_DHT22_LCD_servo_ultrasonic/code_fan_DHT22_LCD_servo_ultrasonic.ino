@@ -3,7 +3,7 @@
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
 
-// === Pins ===
+// Pins 
 #define DHTPIN 2
 #define DHTTYPE DHT22
 #define TRIG_PIN 3
@@ -14,16 +14,16 @@
 #define FAN_IN2 9
 #define FAN_ENA 10
 
-// === Objects ===
+// Objects 
 DHT dht(DHTPIN, DHTTYPE);
 Servo myServo;
-LiquidCrystal_I2C lcd(0x27, 20, 4);
+LiquidCrystal_I2C lcd(0x27, 16, 2);
 
-// === Variables ===
+// Variables 
 int currentAngle = 90;
 bool servoActive = true;
 bool fanAuto = true;
-float triggerTemp = 31;
+float triggerTemp = 30;
 
 void setup() {
   Serial.begin(9600);
@@ -63,23 +63,25 @@ void loop() {
     return;
   }
 
-  // === Fan control ===
+// ultrasonic distance
+  float distance = readDistance();
+
+  // Fan control
   String fanStatus = "OFF";
   if (fanAuto) {
-    if (temp >= triggerTemp) {
+    if (temp >= triggerTemp && distance < 60) {
       analogWrite(FAN_ENA, 255);  // ON
       fanStatus = "ON";
     } else {
-      analogWrite(FAN_ENA, 0);    // OFF
+      analogWrite(FAN_ENA, 0);  // OFF
       fanStatus = "OFF";
     }
   } else {
-    analogWrite(FAN_ENA, 0);      // Manual override: always off
+    analogWrite(FAN_ENA, 0);  // Manual override: always off
     fanStatus = "MANUAL OFF";
   }
 
-  // === Servo control ===
-  float distance = readDistance();
+// servo
   if (servoActive) {
     int targetAngle = 90;
     if (distance < 60) targetAngle = 75;
@@ -89,7 +91,7 @@ void loop() {
     currentAngle = targetAngle;
   }
 
-  // === LCD display ===
+  // LCD display
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("Temp: ");
@@ -110,7 +112,7 @@ void loop() {
   lcd.print("Servo: ");
   lcd.print(servoActive ? "ON " : "OFF");
 
-  // === Serial display ===
+  // Serial display
   Serial.print("Temp: ");
   Serial.print(temp);
   Serial.print(" °C | Fan: ");
