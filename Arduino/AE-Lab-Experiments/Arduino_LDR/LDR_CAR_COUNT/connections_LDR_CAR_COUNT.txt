@@ -1,0 +1,13 @@
+LDR Circuit (Voltage Divider):
+Component	Arduino Pin	Notes
+One side of LDR			5V	Power input
+Other side of LDR		A0	Analog input to measure light level
+10kΩ resistor			Between A0 and GND	Forms a voltage divider
+
+This creates a voltage divider:
+5V -- LDR -- A0 -- 10kΩ resistor -- GND
+
+LED Circuit:
+Component	Arduino Pin	Notes
+LED Anode (long leg)		Digital Pin 8 (D8)	Output from Arduino
+LED Cathode (short leg)		Through 220Ω resistor to GND	Current limiting

@@ -1,0 +1,10 @@
+🧠 Summary Wiring Diagram (Text Format):
+Segment A of 7-seg → 220Ω resistor → Arduino D2
+
+COM (either pin 3 or 8) → GND
+
+
+Button:
+One side → Arduino D7
+		
+diagonally opposite side → GND

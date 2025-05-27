@@ -1,0 +1,21 @@
+🎛️ Potentiometer to A0
+A potentiometer has 3 pins:
+
+Left Pin → GND
+
+Middle Pin → A0 (analog input)
+
+Right Pin → 5V
+
+___
+
+🛠 CONNECTIONS
+🔌 LCD with I2C
+I2C uses only 2 wires + power:
+
+I2C LCD Pin	Connect To Arduino
+VCC	5V
+GND	GND
+SDA	A4 (Uno/Nano)
+SCL	A5 (Uno/Nano)
+
