@@ -52,3 +52,16 @@ for bar, pop_den in zip(bars, df_sorted["PopulationDensity"]):
 
 st.pyplot(fig)
 
+st.sidebar.markdown("""
+### About This Dashboard
+This interactive dashboard analyzes how population density influences landfill usage across Indian cities.
+
+**Goal:**
+Understand whether denser cities rely more on landfills or alternative methods (e.g., incineration, composting).
+
+**Features:**
+- Density-based classification of cities
+- Trend analysis of disposal methods by population density
+- Comparison between high-density and low-density urban areas
+
+""")

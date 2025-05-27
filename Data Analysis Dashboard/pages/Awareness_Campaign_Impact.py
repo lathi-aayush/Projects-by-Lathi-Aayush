@@ -52,7 +52,6 @@ else:
         'AwarenessCampaignsCount': 'mean'
     }).reset_index()
 
-    # 🌟 New Chart on Top
     st.subheader("📈 Awareness Count vs Recycling Rate")
     fig_top, ax_top = plt.subplots(figsize=(10, 6))
     barplot_top = sns.barplot(data=grouped, x='AwarenessCampaignsCount', y='RecyclingRate', palette='coolwarm', ax=ax_top)
@@ -65,8 +64,8 @@ else:
     for bar, city in zip(ax_top.patches, grouped['city']):
             height = bar.get_height()
             ax_top.text(
-                bar.get_x() + bar.get_width() / 2,  # x-center of bar
-                0.05 * height,                      # small offset above 0, inside bar
+                bar.get_x() + bar.get_width() / 2,  
+                0.05 * height,                      
                 city,
                 ha='center',
                 va='bottom',
@@ -86,16 +85,14 @@ else:
         barplot1 = sns.barplot(data=grouped, x='city', y='RecyclingRate', palette='viridis', ax=ax1)
         ax1.set_xlabel("City")
         ax1.set_ylabel("Avg Recycling Rate")
-        # ax1.tick_params(axis='x', rotation=45)
         ax1.set_xticklabels([])
         for container in ax1.containers:
             ax1.bar_label(container, fmt="%.1f")
-        # Add city names inside bars near bottom
         for bar, city in zip(ax1.patches, grouped['city']):
             height = bar.get_height()
             ax1.text(
-                bar.get_x() + bar.get_width() / 2,  # x-center of bar
-                0.05 * height,                      # small offset above 0, inside bar
+                bar.get_x() + bar.get_width() / 2, 
+                0.05 * height,                      
                 city,
                 ha='center',
                 va='bottom',
@@ -112,11 +109,9 @@ else:
         barplot2 = sns.barplot(data=grouped, x='city', y='AwarenessCampaignsCount', palette='magma', ax=ax2)
         ax2.set_xlabel("City")
         ax2.set_ylabel("Avg Campaigns Count")
-        # ax2.tick_params(axis='x', rotation=45)
         ax2.set_xticklabels([])
         for container in ax2.containers:
             ax2.bar_label(container, fmt="%.1f")
-        # Add city names inside bars near bottom
         for bar, city in zip(ax2.patches, grouped['city']):
             height = bar.get_height()
             ax2.text(
@@ -131,3 +126,17 @@ else:
                 weight='bold'
             )
         st.pyplot(fig2)
+
+st.sidebar.markdown("""
+### About This Dashboard
+This interactive dashboard evaluates the relationship between public awareness efforts and recycling outcomes in Indian cities.
+
+**Goal:**
+Investigate if cities with more awareness campaigns have higher recycling rates and better disposal practices.
+
+**Features:**
+- Visualization of campaign count vs. recycling rate
+- Cluster analysis of campaign effectiveness
+- Comparative insights across regions
+
+""")

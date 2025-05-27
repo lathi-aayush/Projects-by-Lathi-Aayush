@@ -12,7 +12,6 @@ st.markdown("Identify which disposal methods (e.g., Composting, Recycling, Landf
 
 sns.set_style("darkgrid")
 
-# Load and process data
 df = pd.read_excel("final_DAWaste_Management_and_Recycling_India.xlsx")
 
 avg_mes = df.groupby('city')['MES'].mean().reset_index()
@@ -22,7 +21,6 @@ method_stats = pd.merge(method_counts, total_counts, on='city')
 method_stats['proportion'] = method_stats['count'] / method_stats['total']
 final_df = pd.merge(method_stats, avg_mes, on='city')
 
-# Sidebar filters
 st.sidebar.header("🔍 Filters")
 
 bin_width = st.sidebar.slider("MES Bin Width", min_value=0.1, max_value=2.0, value=0.5, step=0.1)
@@ -44,10 +42,8 @@ filtered_final_df = final_df[final_df['MES_bin'].isin(selected_bins) & final_df[
 method_selected = st.sidebar.selectbox("Disposal Method", filtered_final_df['disposal_method'].unique())
 filtered = filtered_final_df[filtered_final_df['disposal_method'] == method_selected]
 
-# Layout columns
 col1, col2 = st.columns(2)
 
-# Bar plot - Average MES per City
 with col1:
     fig2, ax2 = plt.subplots(figsize=(8,6))
     fig2.patch.set_facecolor('#121212')
@@ -60,10 +56,8 @@ with col1:
         height = bar.get_height()
         x = bar.get_x() + bar.get_width() / 2
 
-        # City name inside the bar near the bottom
         ax2.text(x, height * 0.05, filtered_avg_mes['city'].iloc[i], ha='center', va='bottom', color='black', fontsize=9, rotation = 90)
 
-        # MES value on top of the bar
         ax2.text(x, height + 0.1, f"{height:.2f}", ha='center', va='bottom', color='white', fontsize=10)
 
     ax2.set_title("Average MES per City", color="white", fontsize=14)
@@ -78,7 +72,6 @@ with col1:
     ax2.spines['bottom'].set_color('white')
     st.pyplot(fig2)
 
-# Scatter plot - Proportion Used vs MES
 with col2:
     fig1, ax1 = plt.subplots(figsize=(8,6))
     fig1.patch.set_facecolor('#121212')
@@ -101,3 +94,18 @@ with col2:
     st.pyplot(fig1)
 
 st.markdown("---")
+
+st.sidebar.markdown("""
+### About This Dashboard
+This interactive dashboard explores how effectively different waste disposal methods are utilized in cities with varying levels of municipal efficiency.
+
+**Goal:**
+Identify which disposal methods (e.g., Composting, Recycling, Landfill) are most effectively used in cities with high municipal efficiency scores.
+
+**Features:**
+- Correlation analysis between disposal methods and municipal efficiency
+- Comparative visuals across cities
+- Filtering by disposal method or efficiency tier
+- Highlights best practices in urban waste management
+
+""")

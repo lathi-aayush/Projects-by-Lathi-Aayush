@@ -38,3 +38,17 @@ st.pyplot(fig)
 
 with st.expander("Show Data Table"):
     st.dataframe(agg_df.pivot(index="WasteType", columns="disposal_method", values="MES").round(2))
+
+st.sidebar.markdown("""
+### About This Dashboard
+This dashboard compares the effectiveness of disposal methods across different types of waste to identify optimal strategies.
+
+**Goal:**
+Rank which disposal method works best for each waste type (e.g., Composting for Organic, Recycling for Plastic).
+
+**Features:**
+- Performance benchmarking for each method
+- Waste-type specific disposal outcomes
+- Insights into method suitability and efficiency
+
+""")

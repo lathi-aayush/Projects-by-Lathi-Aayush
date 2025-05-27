@@ -83,3 +83,19 @@ for bar, rate in zip(bars2, df_grouped["RecyclingRate"]):
     ax2.text(bar.get_x() + bar.get_width()/2, height + 0.5, f"{rate:.1f}%", ha='center', va='bottom', fontsize=9)
 
 st.pyplot(fig2)
+
+
+st.sidebar.markdown("""
+### About This Dashboard
+This interactive dashboard analyzes the relationship between waste management spending and recycling efficiency across different waste types.
+
+**Goal:**
+Determine if higher spending on waste management correlates with higher recycling rates, and how this varies by waste type (e.g., Plastic, Organic, Metal, etc.).
+
+**Features:**
+- Cost-benefit analysis across multiple waste categories
+- Comparative visualization of cost per ton vs. recycling rate
+- Easy filtering by waste type
+- Insight into fiscal efficiency of recycling programs
+
+""")
