@@ -1,0 +1,12 @@
+✅ Wiring (DHT22 + L293 Motor Driver)
+DHT22 Pin	Arduino Pin	Note
+VCC	5V	Power supply
+DATA	2	Digital signal pin
+GND	GND	Ground
+
+Fan Control Pins (same as before):
+
+L293 Pin	Arduino Pin
+A1	8
+A2	9
+ENA	10

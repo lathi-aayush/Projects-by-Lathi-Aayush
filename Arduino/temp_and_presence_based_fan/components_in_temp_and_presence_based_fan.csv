@@ -1,0 +1,9 @@
+﻿Quantity,Component
+1, Temperature Sensor [DHT22]
+1,LCD 16 x 2 (I2C)
+1,Arduino Uno
+1,Micro Servo
+1, DC Motor
+1, Ultrasonic Distance Sensor (4-pin)
+1,L293 H-bridge Motor Driver
+1, 9V Battery
