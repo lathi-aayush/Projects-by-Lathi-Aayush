@@ -61,7 +61,7 @@ else:
 
     for container in ax_top.containers:
         ax_top.bar_label(container, fmt="%.1f")
-    for bar, city in zip(ax_top.patches, grouped['city']):
+    for bar, city in zip(ax_top.patches, grouped['city'][::-1]):
             height = bar.get_height()
             ax_top.text(
                 bar.get_x() + bar.get_width() / 2,  
